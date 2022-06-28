@@ -1,6 +1,8 @@
 import axios from "../config/axios";
 import { API_ENDPOINT_URL } from "../config/env";
 
+const modifyResource = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+
 const fetchList = async (url, resource) => {
   try {
     const res = await axios.get(url, resource);
@@ -29,8 +31,37 @@ export const getList = (resource, params) => {
   //     filter: JSON.stringify(params.filter),
   //   };
   console.log(params.filter);
-  const listType = resource.charAt(0).toUpperCase() + resource.slice(1);
+  const listType = modifyResource(resource);
   console.log(listType);
   const url = `${API_ENDPOINT_URL}/${listType}?pageNumber=${pageNumber}&pageSize=${pageSize}`;
   return fetchList(url, resource);
+};
+
+// ////////////////////////////////////////////////
+//////////////////// UPDATE
+
+// export const updateOne = (resource, params) =>
+//   httpClient(`${apiUrl}/${resource}/${params.id}`, {
+//     method: "PUT",
+//     body: JSON.stringify(params.data),
+//   }).then(({ json }) => ({ data: json }));
+
+const updateRecord = async (url, body) => {
+  try {
+    const res = await axios.put(url, body);
+
+    console.log(res.status);
+    return { data: body };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateOne = (resource, params) => {
+  const listType = modifyResource(resource);
+  console.log(params.data);
+  const body = params.data;
+  body.updateBy = params.id;
+  const url = `${API_ENDPOINT_URL}/${listType}/${params.id}`;
+  return updateRecord(url, body);
 };

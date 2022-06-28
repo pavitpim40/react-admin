@@ -1,7 +1,7 @@
 import { fetchUtils } from "react-admin";
 import { stringify } from "query-string";
 import a from "./db/user.json";
-import { getList } from "./api/UserServices";
+import { getList, updateOne } from "./api/UserServices";
 // const apiUrl = 'https://jsonplaceholder.typicode.com';
 const apiUrl = "https://42bkk-tas.azurewebsites.net/api/Core/Users";
 const httpClient = fetchUtils.fetchJson;
@@ -54,7 +54,7 @@ export default {
   //         body: JSON.stringify(params.data),
   //     }).then(({ json }) => ({ data: json })),
 
-  update: () => Promise.resolve(a[0]),
+  update: updateOne,
 
   // updateMany: (resource, params) => {
   //     const query = {
